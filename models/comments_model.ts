@@ -4,6 +4,7 @@ interface IComment extends Document {
     postId: string;
     content?: string;
     author: string;
+    createdAt: Date
 }
 
 const CommentSchema: Schema = new Schema({
@@ -12,6 +13,10 @@ const CommentSchema: Schema = new Schema({
         required: true,
     },
     content: String,
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
     author: {
         type: String,
         required: true,

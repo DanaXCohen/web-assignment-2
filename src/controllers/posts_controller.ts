@@ -6,7 +6,7 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
     try {
         const post = await Post.create(postBody);
         res.status(StatusCodes.CREATED).send(post);
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ValidationError") {
             res.status(StatusCodes.BAD_REQUEST).send({ error: "Validation error", details: error.message });
         } else {
@@ -24,7 +24,7 @@ export const getAllPosts = async (req: Request, res: Response): Promise<void> =>
             const posts = await Post.find();
             res.send(posts);
         }
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ValidationError") {
             res.status(StatusCodes.BAD_REQUEST).send({ error: "Validation error", details: error.message });
         } else {
@@ -41,7 +41,7 @@ export const getPostById = async (req: Request, res: Response): Promise<void> =>
         } else {
             res.status(StatusCodes.NOT_FOUND).send("Post not found");
         }
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ValidationError") {
             res.status(StatusCodes.BAD_REQUEST).send({ error: "Validation error", details: error.message });
         } else {
@@ -59,7 +59,7 @@ export const updatePost = async (req: Request, res: Response): Promise<void> => 
         } else {
             res.status(StatusCodes.NOT_FOUND).send("Post not found");
         }
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ValidationError") {
             res.status(StatusCodes.BAD_REQUEST).send({ error: "Validation error", details: error.message });
         } else {

@@ -1,18 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const authenticate = (req: Request, res: Response, next: NextFunction) => {
+export async function authenticate(req: Request, res: Response, next: NextFunction): Promise<void> {
     const token = req.header('Authorization')?.replace('Bearer ', '');
 
-    if (!token) return res.status(401).json({ error: 'Unauthorized' });
+    if (!token) {
+        throw new Error('No token provided');
+    }
 
     try {
         const decoded = jwt.verify(token, 'accessTokenSecret');
-        req.user = decoded;
+        req.body.user = decoded;
         next();
     } catch (error) {
-        res.status(401).json({ error: 'Unauthorized' }, error);
+        next(error);
     }
-};
-
-export { authenticate };
+}

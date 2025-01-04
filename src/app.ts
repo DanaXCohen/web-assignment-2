@@ -1,10 +1,11 @@
-import { setupSwagger } from './swagger';
+import { setupSwagger } from '../swagger';
 import express, { Application } from "express";
 import { config } from "dotenv";
 import mongoose, { ConnectOptions } from "mongoose";
 import bodyParser from "body-parser";
 import commentRoutes from "./routes/comments_route";
 import postsRoutes from "./routes/posts_route";
+import errorHandler from './middleware/errorHandler';
 
 config();
 const app: Application = express();
@@ -26,10 +27,13 @@ db.once("open", () => {
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
-// Routes
-app.use("/posts", postsRoutes);
 
+// Routes
+
+app.use("/posts", postsRoutes);
 app.use("/comments", commentRoutes);
+
+app.use(errorHandler as unknown as express.ErrorRequestHandler);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

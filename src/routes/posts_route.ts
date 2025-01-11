@@ -7,13 +7,14 @@ import {
     createPost,
     updatePost,
 } from "../controllers/posts_controller";
+import {isAuthorized} from "../middleware/auth";
 
-router.get("/", getAllPosts);
+router.get("/", isAuthorized, getAllPosts);
 
-router.get("/:id", getPostById);
+router.get("/:id", isAuthorized, getPostById);
 
-router.post("/", createPost);
+router.post("/", isAuthorized, createPost);
 
-router.put("/:id", updatePost);
+router.put("/:id", isAuthorized, updatePost);
 
 export default router;

@@ -33,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/posts", postsRoutes);
 app.use("/comments", commentRoutes);
 
+setupSwagger(app)
 app.use(errorHandler as unknown as express.ErrorRequestHandler);
 
 app.listen(port, () => {

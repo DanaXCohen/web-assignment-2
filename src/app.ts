@@ -1,17 +1,16 @@
-import { setupSwagger } from '../swagger';
-import express, { Application } from "express";
+import express, { Express } from "express";
 import { config } from "dotenv";
 import mongoose, { ConnectOptions } from "mongoose";
 import bodyParser from "body-parser";
 import commentRoutes from "./routes/comments_route";
 import postsRoutes from "./routes/posts_route";
 import errorHandler from './middleware/errorHandler';
+import swaggerSetup from './swagger';
 
 config();
-const app: Application = express();
+const app: Express = express();
 
 const port: string | undefined = process.env.PORT;
-// Mongoose connection
 
 mongoose.connect(process.env.DB_CONNECT as string, {
     useNewUrlParser: true,
@@ -33,10 +32,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/posts", postsRoutes);
 app.use("/comments", commentRoutes);
 
-setupSwagger(app)
+swaggerSetup(app)
+
 app.use(errorHandler as unknown as express.ErrorRequestHandler);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
-setupSwagger(app);
+

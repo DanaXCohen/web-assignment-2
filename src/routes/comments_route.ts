@@ -8,8 +8,9 @@ import {
     updateComment,
     deleteComment,
 } from "../controllers/comments_controller";
+import {isAuthorized} from "../middleware/auth";
 
-router.get("/", async (req, res, next) => {
+router.get("/", isAuthorized, async (req, res, next) => {
     try {
         await getAllComments(req, res);
     } catch (err) {
@@ -17,7 +18,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.get("/:postId", async (req, res, next) => {
+router.get("/:postId", isAuthorized, async (req, res, next) => {
     try {
         await getCommentsByPostId(req, res);
     } catch (err) {
@@ -25,7 +26,7 @@ router.get("/:postId", async (req, res, next) => {
     }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAuthorized, async (req, res, next) => {
     try {
         await addComment(req, res);
     } catch (err) {
@@ -33,7 +34,7 @@ router.post("/", async (req, res, next) => {
     }
 });
 
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", isAuthorized, async (req, res, next) => {
     try {
         await updateComment(req, res);
     } catch (err) {
@@ -41,7 +42,7 @@ router.put("/:id", async (req, res, next) => {
     }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", isAuthorized, async (req, res, next) => {
     try {
         await deleteComment(req, res);
     } catch (err) {

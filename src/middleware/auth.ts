@@ -1,18 +1,27 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import User from '../models/user_model';
 
-export async function authenticate(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+export const isAuthorized = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const authHeaders = req.headers.authorization;
 
-    if (!token) {
-        throw new Error('No token provided');
+    if (!authHeaders) {
+        res.status(403).json({ error: "Authorization header not found!" });
+        return;
     }
+    const token = authHeaders.split(" ")[1];
 
     try {
-        const decoded = jwt.verify(token, 'accessTokenSecret');
-        req.body.user = decoded;
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+        const user = await User.findOne({_id:decodedToken.userId});
+        if (!user) {
+            res.status(403).json({ error: "Not Authorized!" });
+            return;
+        }
+        req.body = Object.assign(req.body, {userId: decodedToken.userId})
         next();
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        res.status(403).json({ error: "Not Authorized!" });
+        return;
     }
-}
+};

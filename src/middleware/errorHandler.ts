@@ -10,7 +10,7 @@ interface ValidationError {
 }
 
 interface CustomError extends Error {
-    errors?: Record<string, ValidationError>;
+    errors?: Error;
     status?: number;
 }
 
@@ -19,7 +19,7 @@ const errorHandler = (error: CustomError, req: Request, res: Response, next: Nex
     if (error instanceof MongoError) {
         switch (error.code) {
             case 11000: // Duplicate key error
-                res.status(400).json({message: 'Duplicate key error: A record with this key already exists.'});
+                res.status(400).json({message: 'Duplicate key error: An item with this key already exists.'});
                 break;
             case 121: // Document failed validation
                 res.status(400).json({message: 'Document failed validation.'});

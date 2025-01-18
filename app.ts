@@ -28,7 +28,7 @@ export const startServer = async (): Promise<ReturnType<
 > | null> => {
   try {
     console.log("\nTrying to connect to MongoDB...");
-    await mongoose.connect(process.env.MONGO_URI!);
+    await mongoose.connect(process.env.DB_CONNECT!);
     console.log("MongoDB connected successfully");
   } catch (exception: any) {
     console.error(exception.message);

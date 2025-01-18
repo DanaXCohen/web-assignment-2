@@ -1,6 +1,6 @@
-import type { Config } from 'jest';
-
-const config: Config = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const config = {
     preset: 'ts-jest',
     testEnvironment: 'node',
     setupFilesAfterEnv: ['./tests/setup.ts'],
@@ -8,5 +8,5 @@ const config: Config = {
     coverageDirectory: 'coverage',
     coverageReporters: ['text', 'html'],
 };
-
-export default config;
+exports.default = config;
+//# sourceMappingURL=jest.config.js.map

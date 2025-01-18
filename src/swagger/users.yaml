@@ -160,7 +160,7 @@ paths:
                   $ref: '#/components/schemas/User'
         '401':
           description: Unauthorized
-  /user/{userId}:
+  /users/{userId}:
     get:
       summary: Retrieve a user by ID
       tags:

@@ -1,5 +1,5 @@
 paths:
-  /post:
+  /posts:
     post:
       summary: Add a new post
       tags:
@@ -54,7 +54,7 @@ paths:
                   $ref: '#/components/schemas/Post'
         '401':
           description: Unauthorized
-  /post/{postId}:
+  /posts/{postId}:
     get:
       summary: Retrieve a post by ID
       tags:

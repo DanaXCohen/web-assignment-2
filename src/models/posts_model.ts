@@ -1,28 +1,23 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
-interface IPost extends Document {
+export interface IPost extends Document {
     title: string;
-    content?: string;
-    userId: string;
-    createdAt: Date;
+    content: string;
+    sender: Types.ObjectId;
+    comments: Types.ObjectId[];
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
-const postsSchema: Schema = new Schema({
-    title: {
-        type: String,
-        required: true,
+const postSchema = new Schema<IPost>(
+    {
+        title: { type: String, required: true },
+        content: { type: String, required: true },
+        sender: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+        comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
     },
-    content: String,
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-});
+    { timestamps: true }
+);
 
-const Posts = mongoose.model<IPost>("Posts", postsSchema);
+const Posts = mongoose.model<IPost>('Post', postSchema);
 export default Posts;
